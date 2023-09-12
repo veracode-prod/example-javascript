@@ -1,0 +1,42 @@
+on: 
+  push:
+    branches: [ "master" ]
+permissions:
+    checks: write
+jobs:
+  Veracode-checks:
+    runs-on: ubuntu-latest
+    steps:
+      # Create check run
+      - name: GitHub API Request to create a check
+        uses: octokit/request-action@v2.x
+        id: create_check_run
+        with:
+          route: POST /repos/{owner}/{repo}/check-runs
+          owner: GitHubVeracode
+          repo: ${{ github.event.repository.name }}
+          name: "Test check run"
+          head_sha: ${{ github.sha }}
+          status: in_progress
+          output: | # The | is significant!
+            title: Test check run title
+            summary: A summary of the test check run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "echo '${{ fromJson(steps.create_check_run.outputs.data).id }}'"
+      - name: Create metadata
+        id: create-metadata-json
+        run: |
+          echo '{
+            "check_run_type": "check_run_type_value",
+            "repository_name": "${{ github.event.repository.name }}",
+            "check_run_id": ${{ fromJson(steps.create_check_run.outputs.data).id }}
+          }' > workflow-metadata.json
+        shell: bash
+      - name: Save metadata
+        uses: actions/upload-artifact@v3
+        with:
+          name: workflow-metadata
+          path: workflow-metadata.json
+
+      
