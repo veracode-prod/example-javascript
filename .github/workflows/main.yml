@@ -9,9 +9,7 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: get_latest_release
         with:
-          route: GET /repos/{owner}/{repo}/releases/latest
-          owner: GitHubVeracode
-          repo: ${{ github.event.repository.name }}
+          route: GET /repos/GitHubVeracode/example-javascript/releases/latest
           mediaType: | # The | is significant!
             format: raw
         env:
