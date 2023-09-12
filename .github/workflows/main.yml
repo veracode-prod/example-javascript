@@ -44,7 +44,8 @@ jobs:
           echo '{
             "check_run_type": "check_run_type_value",
             "repository_name": "repository_name_value",
-            "check_run_id": "check_run_id_value"
+            "check_run_id": ${{ steps.create_check_run.outputs.check_id }}
+            
           }' > workflow-metadata.json
         shell: bash
       - name: Save metadata
