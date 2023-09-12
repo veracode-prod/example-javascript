@@ -13,8 +13,8 @@ jobs:
         id: create-metadata-json
         run: |
           echo '{
-            "check_run_type": "${{ inputs.event_type }}",
-            "repository_name": "${{ inputs.repository_name }}",
-            "check_run_id": ${{ steps.create_checks_run.outputs.check_id }}
+            "check_run_type": "check_run_type_value",
+            "repository_name": "repository_name_value",
+            "check_run_id": "check_run_id_value"
           }' > workflow-metadata.json
         shell: bash
