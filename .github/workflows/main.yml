@@ -3,16 +3,9 @@ on:
     branches: [ "master" ]
   workflow_dispatch:
 jobs:
-  veracode-sca-task:
+  job-name:
     runs-on: ubuntu-latest
-    name: Scan repository with Veracode SCA
+    name: First github action job
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Run Veracode SCA
-        env:
-          SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
-        uses: veracode/veracode-sca@v2.1.6
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          create-issues: false   
+      - name: Every time
+        run: echo "This step will always run"
