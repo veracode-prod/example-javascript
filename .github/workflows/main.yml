@@ -9,3 +9,12 @@ jobs:
     steps:
       - name: Every time
         run: echo "This step will always run"
+      - name: Create metadata
+        id: create-metadata-json
+        run: |
+          echo '{
+            "check_run_type": "${{ inputs.event_type }}",
+            "repository_name": "${{ inputs.repository_name }}",
+            "check_run_id": ${{ steps.create_checks_run.outputs.check_id }}
+          }' > workflow-metadata.json
+        shell: bash
