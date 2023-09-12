@@ -3,16 +3,14 @@ on:
     branches: [ "master" ]
   workflow_dispatch:
 jobs:
-  logLatestRelease:
+  Veracode-checks:
     runs-on: ubuntu-latest
     steps:
-      - name: GitHub API Request
+      - name: GitHub API Request to create a check
         uses: octokit/request-action@v2.1.0
         id: get_latest_release
         with:
           route: GET /repos/GitHubVeracode/example-javascript/releases/latest
-          mediaType: | # The | is significant!
-            format: raw
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
