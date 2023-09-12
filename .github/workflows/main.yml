@@ -25,14 +25,14 @@ jobs:
             summary: A summary of the test check run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo '${{ steps.create_check_run.outputs.data.id }}'"
+      - run: "echo '${{ fromJson(steps.create_check_run.outputs.data).id }}'"
       - name: Create metadata
         id: create-metadata-json
         run: |
           echo '{
             "check_run_type": "check_run_type_value",
             "repository_name": "${{ github.event.repository.name }}",
-            "check_run_id": ${{ steps.create_check_run.outputs.data.id }}
+            "check_run_id": ${{ fromJson(steps.create_check_run.outputs.data).id }}
           }' > workflow-metadata.json
         shell: bash
       - name: Save metadata
