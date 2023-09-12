@@ -2,8 +2,6 @@ on:
   push:
     branches: [ "master" ]
 permissions:
-    contents: write
-    actions: write
     checks: write
 jobs:
   Veracode-checks:
