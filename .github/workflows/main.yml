@@ -6,7 +6,7 @@ jobs:
   Veracode-checks:
     runs-on: ubuntu-latest
     steps:
-      - name: GitHub API Request to create a check
+      - name: GitHub API Request to releases tag
         uses: octokit/request-action@v2.1.0
         id: get_latest_release
         with:
@@ -16,6 +16,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
+      # Create check run
+      - name: GitHub API Request to create a check
+        uses: octokit/request-action@v2.x
+        id: create_check_run
+        with:
+          route: POST /repos/{owner}/{repo}/check-runs
+          owner: GitHubVeracode
+          repo: ${{ github.event.repository.name }}
+          name: "Test check run"
+          head_sha: ${{ github.sha }}
+          output: | # The | is significant!
+            title: Test check run title
+            summary: A summary of the test check run
+            images:
+              - alt: Test image
+                image_url: https://octodex.github.com/images/jetpacktocat.png
       - name: Create metadata
         id: create-metadata-json
         run: |
