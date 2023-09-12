@@ -7,12 +7,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: GitHub API Request
-        uses: octokit/request-action@v2.1.0
-        id: get_latest_release
+        uses: octokit/request-action@v2.x
+        id: create_check_run
         with:
-          route: GET /repos/GitHubVeracode/example-javascript/releases/latest
-          mediaType: | # The | is significant!
-            format: raw
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
+          route: POST /repos/{owner}/{repo}/check-runs
+          owner: GitHubVeracode
+          repo: example-javascript
+          name: "Test check run"
+          head_sha: ${{ github.sha }}
+          output: | # The | is significant!
+            title: Test check run title
+            summary: A summary of the test check run
+
+      
