@@ -9,9 +9,11 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: get_latest_release
         with:
-          route: GET /repos/{owner}/{repo}/releases/latest
+          route: GET /repos/${OWNER}/${REPO}/releases/latest
           owner: octokit
           repo: request-action
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.event.organisation.login }}
+          REPO: ${{ github.event.repository.name }}
       - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
