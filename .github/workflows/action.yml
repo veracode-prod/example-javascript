@@ -24,6 +24,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo '${{ fromJson(steps.create_check_run.outputs.data).id }}'"
+      
+      # Creating Metadata
       - name: Create metadata
         id: create-metadata-json
         run: |
