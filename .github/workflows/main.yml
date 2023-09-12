@@ -31,8 +31,8 @@ jobs:
         run: |
           echo '{
             "check_run_type": "check_run_type_value",
-            "repository_name": "repository_name_value",
-            "check_run_id": ${{ steps.create_check_run.outputs.id }}
+            "repository_name": ${{ github.event.repository.name }},
+            "check_run_id": ${{ steps.create_check_run.outputs.data.id }}
             
           }' > workflow-metadata.json
         shell: bash
