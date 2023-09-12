@@ -25,7 +25,7 @@ jobs:
             summary: A summary of the test check run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "check-runs output : '${{ steps.create_check_run.outputs.data }}'"
+      - run: "echo check-runs output : '${{ steps.create_check_run.outputs.data }}'"
       - name: Create metadata
         id: create-metadata-json
         run: |
