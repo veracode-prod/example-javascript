@@ -7,19 +7,19 @@ jobs:
     runs-on: ubuntu-latest
     name: First github action job
     steps:
-      - name: Every time
-        run: echo "This step will always run"
-      - name: Create metadata
-        id: create-metadata-json
-        run: |
-          echo '{
-            "check_run_type": "check_run_type_value",
-            "repository_name": "repository_name_value",
-            "check_run_id": "check_run_id_value"
-          }' > workflow-metadata.json
-        shell: bash
-      - name: Save metadata
-        uses: actions/upload-artifact@v3
-        with:
-          name: workflow-metadata
-          path: workflow-metadata.json
+      - uses: octokit/request-action@v2.x
+          id: create_check_run
+          with:
+            route: POST /repos/{owner}/{repo}/check-runs
+            owner: octokit
+            repo: request-action
+            name: "Test check run"
+            head_sha: ${{ github.sha }}
+            output: | # The | is significant!
+              title: Test check run title
+              summary: A summary of the test check run
+              images:
+                - alt: Test image
+                  image_url: https://octodex.github.com/images/jetpacktocat.png
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
