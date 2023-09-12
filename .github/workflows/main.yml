@@ -10,7 +10,7 @@ jobs:
         id: get_latest_release
         with:
           route: GET /repos/{owner}/{repo}/releases/latest
-          owner: ${{ github.event.organisation.login }}
+          owner: GitHubVeracode
           repo: ${{ github.event.repository.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
