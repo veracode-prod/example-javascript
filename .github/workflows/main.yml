@@ -7,19 +7,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: GitHub API Request
-        uses: octokit/request-action@v2.x
-        id: create_check_run
+        uses: octokit/request-action@v2.1.0
+        id: get_latest_release
         with:
-          route: POST /repos/{owner}/{repo}/check-runs
-          owner: GitHubVeracode
-          repo: example-javascript
-          name: "Test check run"
-          head_sha: ${{ github.sha }}
-          output: | # The | is significant!
-            title: Test check run title
-            summary: A summary of the test check run
+          route: GET /repos/GitHubVeracode/example-javascript/releases/latest
+          mediaType: | # The | is significant!
+            format: raw
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
+      - name: Create metadata
+        id: create-metadata-json
+        run: |
+          echo '{
+            "check_run_type": "check_run_type_value",
+            "repository_name": "repository_name_value",
+            "check_run_id": "check_run_id_value"
+          }' > workflow-metadata.json
+        shell: bash
+      - name: Save metadata
+        uses: actions/upload-artifact@v3
+        with:
+          name: workflow-metadata
+          path: workflow-metadata.json
       - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
 
       
