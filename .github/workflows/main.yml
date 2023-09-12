@@ -2,6 +2,10 @@ name: Check run
 on:
   push:
     branches: [ "master" ]
+permissions:
+    contents: write
+    actions: write
+    checks: write
 jobs:
   create-file:
     runs-on: ubuntu-latest
