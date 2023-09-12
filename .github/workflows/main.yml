@@ -33,9 +33,6 @@ jobs:
           output: | # The | is significant!
             title: Test check run title
             summary: A summary of the test check run
-            images:
-              - alt: Test image
-                image_url: https://octodex.github.com/images/jetpacktocat.png
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create metadata
@@ -44,7 +41,7 @@ jobs:
           echo '{
             "check_run_type": "check_run_type_value",
             "repository_name": "repository_name_value",
-            "check_run_id": ${{ steps.create_check_run.outputs }}
+            "check_run_id": ${{ steps.create_check_run.outputs.id }}
             
           }' > workflow-metadata.json
         shell: bash
