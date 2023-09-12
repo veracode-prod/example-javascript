@@ -17,4 +17,9 @@ jobs:
             "repository_name": "repository_name_value",
             "check_run_id": "check_run_id_value"
           }' > workflow-metadata.json
-        shell: bash
+          shell: bash
+      - name: Save metadata
+        uses: actions/upload-artifact@v3
+        with:
+          name: workflow-metadata
+          path: workflow-metadata.json
