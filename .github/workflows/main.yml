@@ -1,24 +1,13 @@
-on: 
+name: Check run
+on:
   push:
     branches: [ "master" ]
-  workflow_dispatch:
 jobs:
-  Veracode-checks:
+  create-file:
     runs-on: ubuntu-latest
     steps:
-      - name: GitHub API Request to releases tag
-        uses: octokit/request-action@v2.1.0
-        id: get_latest_release
-        with:
-          route: GET /repos/GitHubVeracode/example-javascript/releases/latest
-          owner: GitHubVeracode
-          repo: ${{ github.event.repository.name }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
       # Create check run
-      - name: GitHub API Request to create a check
-        uses: octokit/request-action@v2.x
+      - uses: octokit/request-action@v2.x
         id: create_check_run
         with:
           route: POST /repos/{owner}/{repo}/check-runs
@@ -34,20 +23,26 @@ jobs:
                 image_url: https://octodex.github.com/images/jetpacktocat.png
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create metadata
-        id: create-metadata-json
-        run: |
-          echo '{
-            "check_run_type": "check_run_type_value",
-            "repository_name": "repository_name_value",
-            "check_run_id": "check_run_id_value"
-          }' > workflow-metadata.json
-        shell: bash
-      - name: Save metadata
-        uses: actions/upload-artifact@v3
+          # Download file
+      - uses: octokit/request-action@v2.x
+        id: download_file
         with:
-          name: workflow-metadata
-          path: workflow-metadata.json
-      - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
-
-      
+          route: GET /repos/OWNER/REPO/contents/README.md
+          owner: octokit
+          repo: request-action
+          mediaType: | # The | is significant!
+            format: raw
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Update check run to completed, successful status
+      - uses: octokit/request-action@v2.x
+        id: update_check_run
+        with:
+          route: PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}
+          owner: octokit
+          repo: request-action
+          check_run_id: ${{ fromJson(steps.create_check_run.outputs.data).id }}
+          conclusion: "success"
+          status: "completed"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
