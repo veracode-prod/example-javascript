@@ -9,16 +9,6 @@ jobs:
   Veracode-checks:
     runs-on: ubuntu-latest
     steps:
-      - name: GitHub API Request to releases tag
-        uses: octokit/request-action@v2.1.0
-        id: get_latest_release
-        with:
-          route: GET /repos/GitHubVeracode/example-javascript/releases/latest
-          owner: GitHubVeracode
-          repo: ${{ github.event.repository.name }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
       # Create check run
       - name: GitHub API Request to create a check
         uses: octokit/request-action@v2.x
@@ -35,6 +25,7 @@ jobs:
             summary: A summary of the test check run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "check-runs output : '${{ steps.create_check_run.outputs.data }}'"
       - name: Create metadata
         id: create-metadata-json
         run: |
@@ -50,6 +41,5 @@ jobs:
         with:
           name: workflow-metadata
           path: workflow-metadata.json
-      - run: "echo latest release: '${{ steps.create_check_run.outputs.data }}'"
 
       
