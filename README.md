@@ -13,3 +13,4 @@ srcclr scan --url https://github.com/srcclr/example-javascriptd
 ss
 
 test1
+ss
