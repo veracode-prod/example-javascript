@@ -5,7 +5,7 @@ sssdsdddss
 ## Try me!sd
 ssss
 ```ss
-brew tap srcclr/srcclr
+brew tap srcclr/srcclrss
 brew install srcclr
 srcclr activate
 srcclr scan --url https://github.com/srcclr/example-javascriptds
