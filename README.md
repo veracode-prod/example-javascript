@@ -8,7 +8,7 @@ sssss
 brew tap srcclr/srcclrss
 brew install srcclr
 srcclr activate
-srcclr scan --url https://github.com/srcclr/example-javascriptds
+srcclr scan --url https://github.com/srcclr/example-javascriptdss
 ```
 sssss
 
