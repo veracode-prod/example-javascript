@@ -3,7 +3,7 @@ dddd
 An example node project to demonstrate [srcclr](https://www.srsscclr.com) scans.d test checksfsssssssssssssssssss dddssss
 sssdsdddss
 ## Try me!sdssddsssss
-sssss
+ssssss
 ```sssssss
 brew tap srcclr/srcclrsssss
 brew install srcclr
