@@ -4,7 +4,7 @@ An example node project to demonstrate [srcclr](https://www.srsscclr.com) scans.
 sssdsdddss
 ## Try me!sdssddssss
 sssss
-```ss
+```ssss
 brew tap srcclr/srcclrssss
 brew install srcclr
 srcclr activatess
