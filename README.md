@@ -10,7 +10,7 @@ brew install srcclrss
 srcclr activatess
 srcclr scan --url https://github.com/srcclr/example-javascriptdss
 ```
-sssssss
+ssssssss
 
 test1
 ss
